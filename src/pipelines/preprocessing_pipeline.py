@@ -48,10 +48,119 @@ def clean_data(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def engineer_features(df: pd.DataFrame) -> pd.DataFrame:
-    pass
+    """
+    Create new features for modelling:
+    - Tenure buckets
+    - Charges per tenure
+    - Service count
+    """
+    print("🔧 Engineering features...")
+
+    # Tenure buckets
+    df['tenure_bucket'] = pd.cut(df['tenure'], 
+                                 bins=[0, 12, 24, 48, 60, 72],
+                                 labels=['0-12', '12-24', '24-48', '48+'], 
+                                 right=False)
+    
+    # Average monthly charges (for customers with tenure > 0)
+    df['avg_monthly_charges'] = np.where(
+        df['tenure'] > 0,
+        df['TotalCharges'] / df['tenure'],
+        df['MonthlyCharges']
+    )
+
+    # Charges to tenure ratio with small constant to avoid division by zero (Laplace smoothing)
+    # Higher = Paying more
+    df['charges_tenure_ratio'] = df['MonthlyCharges'] / (df['avg_monthly_charges'] + 1)
+
+    # Count of services subscribed
+    service_cols = [
+        'PhoneService', 'MultipleLines', 'InternetService',
+        'OnlineSecurity', 'OnlineBackup', 'DeviceProtection',
+        'TechSupport', 'StreamingTV', 'StreamingMovies'
+    ]
+
+    def count_services(row):
+        count = 0
+        for col in service_cols:
+            val = row[col]
+            if val not in ['No', 'No internet service', 'No phone service']:
+                count += 1
+        return count
+    
+    df['num_services'] = df.apply(count_services, axis=1)
+
+    # Has streaming services
+    # df['has_streaming'] = df['StreamingTV'].isin(['Yes', 'No internet service']) | df['StreamingMovies'].isin(['Yes', 'No internet service'])
+
+    df['has_streaming'] = ((df['StreamingTV'] == 'Yes') | 
+                           (df['StreamingMovies'] == 'Yes')).astype(int)
+    
+    # Has any support/security services
+    df['has_security_support'] = ((df['OnlineSecurity'] == 'Yes') | 
+                                (df['OnlineBackup'] == 'Yes') | 
+                                (df['TechSupport'] == 'Yes')).astype(int)
+
+
+    # Contract risk score (Short-term contracts are riskier)
+    df['contract_risk'] = df['Contract'].map({
+        'Month-to-month': 3,
+        'One year': 2,
+        'Two year': 1
+    })
+
+    # Payment method risk score (Electronic checks are riskier)
+    payment_risk = { 
+        'Electronic check': 3,
+        'Mailed check': 2,
+        'Bank transfer (automatic)': 1,
+        'Credit card (automatic)': 1
+    }
+    df['payment_risk'] = df['PaymentMethod'].map(payment_risk)
+
+
+    # New customer flag (tenure <= 6 months)
+    df['is_new_customer'] = (df['tenure'] <= 6).astype(int)
+
+    print(f"   Created {8} new features.")
+
+    return df
 
 def encode_features(df: pd.DataFrame) -> pd.DataFrame:
-    pass
+    """
+    Encode categorical features for modeling:
+    - Label Encoding for binary categories
+    - One-Hot Encoding for multi-class categories
+    Returns:
+    - X: Feature matrix
+    - y: Target vector
+    - feature_names: List of feature names after encoding
+    - Encoders
+    """
+    print("🔤 Encoding features...")
+
+    # Column to drop (ID, target, derived features)
+    drop_cols = ['customerID', 'Churn', 'tenure_bucket']
+    
+    # Get feature columns
+    feature_df = df.drop(columns=drop_cols, errors='ignore')
+    
+    # Separate target variable
+    y = df['Churn'].values
+
+    # Identify categorical and numeric columns
+    categorical_cols = feature_df.select_dtypes(include=['object']).columns.tolist()
+    numeric_cols = feature_df.select_dtypes(include=['int64', 'float64']).columns.tolist()
+    # numeric_cols = feature_df.select_dtypes(include=['number']).columns.tolist()
+    print(f"   Found {len(categorical_cols)} categorical and {len(numeric_cols)} numeric features.")
+
+    # One-Hot Encode categorical variables
+    feature_df = pd.get_dummies(feature_df, columns=categorical_cols, drop_first=True)
+
+    # Get feature names
+    
+
+
 
 def prepare_data(raw_path: str = None, save: bool = True):
     """Prepare data for modeling."""
