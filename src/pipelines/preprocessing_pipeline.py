@@ -11,6 +11,8 @@ from sklearn.preprocessing import LabelEncoder, StandardScaler
 import warnings
 warnings.filterwarnings("ignore")
 
+from sklearn.model_selection import train_test_split
+
 def load_raw_data(file_path: Path) -> pd.DataFrame:
     """Load raw data from Telco churn CSV file."""
     if file_path is None:
@@ -29,7 +31,7 @@ def clean_data(df: pd.DataFrame) -> pd.DataFrame:
     - Convert target variable 'Churn' to binary
     - Handle missing types
     """
-    print("🧹 Cleaning data...")
+    print("\n🧹 Cleaning data...")
 
     df['TotalCharges'] = pd.to_numeric(df['TotalCharges'], errors='coerce')
     missing_total_charges = df['TotalCharges'].isna().sum()
@@ -54,11 +56,11 @@ def engineer_features(df: pd.DataFrame) -> pd.DataFrame:
     - Charges per tenure
     - Service count
     """
-    print("🔧 Engineering features...")
+    print("\n🔧 Engineering features...")
 
     # Tenure buckets
     df['tenure_bucket'] = pd.cut(df['tenure'], 
-                                 bins=[0, 12, 24, 48, 60, 72],
+                                 bins=[0, 12, 24, 48, 72],
                                  labels=['0-12', '12-24', '24-48', '48+'], 
                                  right=False)
     
@@ -135,9 +137,9 @@ def encode_features(df: pd.DataFrame) -> pd.DataFrame:
     - X: Feature matrix
     - y: Target vector
     - feature_names: List of feature names after encoding
-    - Encoders
+    - feature_df: DataFrame of encoded features
     """
-    print("🔤 Encoding features...")
+    print("\n🔤 Encoding features...")
 
     # Column to drop (ID, target, derived features)
     drop_cols = ['customerID', 'Churn', 'tenure_bucket']
@@ -158,7 +160,14 @@ def encode_features(df: pd.DataFrame) -> pd.DataFrame:
     feature_df = pd.get_dummies(feature_df, columns=categorical_cols, drop_first=True)
 
     # Get feature names
-    
+    feature_names = feature_df.columns.tolist()
+
+    # Convert to numpy array
+    X = feature_df.values
+
+    print(f"   Encoded feature matrix shape: {X.shape}")
+
+    return X, y, feature_names, feature_df
 
 
 
@@ -169,9 +178,37 @@ def prepare_data(raw_path: str = None, save: bool = True):
 
     df = clean_data(df)
     df = engineer_features(df)
-    df = encode_features(df)
+    X, y, feature_names, feature_df = encode_features(df)
 
-    return [],[],[],[],[]
+    # Split
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, test_size=0.2, random_state=42, stratify=y
+    )
+
+    print(f"\n📊 Data split:")
+    print(f"   Train: {len(X_train):,} samples ({y_train.mean()*100:.1f}% churn)")
+    print(f"   Test: {len(X_test):,} samples ({y_test.mean()*100:.1f}% churn)")
+
+    # Save processed data
+    if save:
+        project_root = Path(__file__).parent.parent.parent
+        processed_dir = project_root / 'data' / '02-preprocessed'
+        processed_dir.mkdir(parents=True, exist_ok=True)
+        
+        # Save full processed dataframe
+        df.to_csv(processed_dir / 'processed_data.csv', index=False)
+        
+        # Save feature matrix
+        feature_df['Churn'] = y
+        feature_df.to_csv(processed_dir / 'features.csv', index=False)
+        
+        # Save feature names
+        with open(processed_dir / 'feature_names.txt', 'w') as f:
+            f.write('\n'.join(feature_names))
+        
+        print(f"\n💾 Saved processed data to {processed_dir}")
+
+    return X_train, X_test, y_train, y_test, feature_names
 
 def main():
     """Run preprocessing pipeline."""
