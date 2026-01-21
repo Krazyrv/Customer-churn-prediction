@@ -306,4 +306,4 @@ With more time, I would:
 
 ## Author
 
-[Anthony Nguyen] | [[Toan Nguyen | LinkedIn](https://www.linkedin.com/in/toan-nguyen-5489952b8/)] | [[Krazyrv | Github](https://github.com/Krazyrv)]
+Anthony Nguyen | [Toan Nguyen | LinkedIn](https://www.linkedin.com/in/toan-nguyen-5489952b8/) | [Krazyrv | Github](https://github.com/Krazyrv)
