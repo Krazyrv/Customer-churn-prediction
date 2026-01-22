@@ -54,7 +54,7 @@ def load_model():
 @st.cache_data
 def load_data():
     """Load processed data for analysis."""
-    project_root = Path(__file__).parent.parent
+    project_root = Path(__file__).parent.parent.parent
     
     try:
         df = pd.read_csv(project_root / 'data' / '02-preprocessed' / 'processed_data.csv')
