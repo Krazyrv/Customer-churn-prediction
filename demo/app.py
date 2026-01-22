@@ -55,12 +55,15 @@ def load_model():
 def load_data():
     """Load processed data for analysis."""
     project_root = Path(__file__).parent.parent.parent
+
+    # For local use
+    # project_root = Path(__file__).parent.parent
     
     try:
         df = pd.read_csv(project_root / 'data' / '02-preprocessed' / 'processed_data.csv')
         return df
     except FileNotFoundError:
-        return None
+        return None, f"{project_root} / 'data' / '02-preprocessed' / 'processed_data.csv'"
 
 
 def create_feature_vector(inputs, feature_names):
@@ -380,10 +383,10 @@ def render_batch_analysis():
     """Render batch analysis of customer base."""
     st.header("📊 Customer Base Analysis")
     
-    df = load_data()
+    df,txt = load_data()
     
     if df is None:
-        st.error("Data not found. Please run preprocessing first.")
+        st.error("Data not found. Please run preprocessing first.\n Path located at: "+txt)
         return
     
     model, feature_names = load_model()
