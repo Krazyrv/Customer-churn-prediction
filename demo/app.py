@@ -54,7 +54,7 @@ def load_model():
 @st.cache_data
 def load_data():
     """Load processed data for analysis."""
-    project_root = Path(__file__).parent#.parent.parent.parent
+    project_root = Path(__file__).parent.parent#.parent.parent
 
     # For local use
     # project_root = Path(__file__).parent.parent
@@ -63,6 +63,7 @@ def load_data():
         df = pd.read_csv(project_root / 'data' / '02-preprocessed' / 'processed_data.csv')
         return df
     except FileNotFoundError:
+        # return None, f"{project_root} / 'data' / '02-preprocessed' / 'processed_data.csv'"
         return None, f"{project_root} / 'data' / '02-preprocessed' / 'processed_data.csv'"
 
 
