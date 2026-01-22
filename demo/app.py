@@ -406,11 +406,32 @@ def render_batch_analysis():
         st.metric("Avg Churn Risk", f"{y_prob.mean()*100:.1f}%")
     with col3:
         high_risk = (y_prob >= 0.5).sum()
-        st.metric("High Risk Customers", f"{high_risk:,}")
+        st.metric("High Risk Customers (> 50% churn probability)", f"{high_risk:,}")
     with col4:
         actual_churn = df['Churn'].sum()
         st.metric("Actual Churners", f"{actual_churn:,}")
+
+    st.header("💰 Projected Annual Revenue Loss")
+    # Projected Revenue Loss
+    avg_revenue_per_customer = df['MonthlyCharges'].mean() * 12  # Annualized
+    projected_loss = (high_risk) * avg_revenue_per_customer
+    # st.markdown(f"### 💰 Projected Annual Revenue Loss due to Churn from High-Risk Customers: ${projected_loss:,.0f}")
+    # st.markdown(f"### 💰 Probability: ${high_risk}")
+
+    # Summary metrics
+    col1, col2, col3, col4 = st.columns(4)
     
+    with col1:
+        st.metric("Estimate Total Revenue", f"${avg_revenue_per_customer*len(df):,}")
+    with col2:
+        st.metric("Avg Revenue per Customer", f"${avg_revenue_per_customer:,.0f}")
+    with col3:
+        high_risk = (y_prob >= 0.5).sum()
+        st.metric("Projected Revenue Loss", f"${projected_loss:,.0f}")
+    with col4:
+        actual_churn = df['Churn'].sum()
+        st.metric("Actual Revenue Loss", f"${avg_revenue_per_customer*actual_churn:,.0f}")
+
     # Risk distribution
     st.subheader("Risk Distribution")
     
