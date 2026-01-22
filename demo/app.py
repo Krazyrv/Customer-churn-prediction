@@ -64,7 +64,7 @@ def load_data():
         return df
     except FileNotFoundError:
         # return None, f"{project_root} / 'data' / '02-preprocessed' / 'processed_data.csv'"
-        return None, f"{project_root} / 'data' / '02-preprocessed' / 'processed_data.csv'"
+        return None#, f"{project_root} / 'data' / '02-preprocessed' / 'processed_data.csv'"
 
 
 def create_feature_vector(inputs, feature_names):
@@ -384,7 +384,8 @@ def render_batch_analysis():
     """Render batch analysis of customer base."""
     st.header("📊 Customer Base Analysis")
     
-    df,txt = load_data()
+    df = load_data()
+    # df,txt = load_data()
     
     if df is None:
         st.error("Data not found. Please run preprocessing first.\n Path located at: "+txt)
