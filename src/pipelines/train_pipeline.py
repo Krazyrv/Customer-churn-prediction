@@ -69,6 +69,7 @@ def compare_models(X, y):
     cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
 
     for name, model in models.items():
+        # scores = cross_val_score(model, X, y, cv=cv, scoring='recall', n_jobs=-1)
         scores = cross_val_score(model, X, y, cv=cv, scoring='roc_auc', n_jobs=-1)
         results[name] = {
             'mean_auc': scores.mean(),
