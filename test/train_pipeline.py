@@ -441,8 +441,8 @@ def main(use_bayesian_optimization=False, n_trials=50):
         print(f"✅ Loaded processed data: {X.shape[0]} samples, {X.shape[1]} features")
     except FileNotFoundError:
         print("⚠️ Processed data not found. Running preprocessing...")
-        # from pipelines.preprocess_pipeline import prepare_data
-        from preprocess_pipeline import prepare_data
+        from pipelines.preprocess_pipeline import prepare_data
+        # from preprocess_pipeline import prepare_data
         X_train, X_test, y_train, y_test, feature_names = prepare_data()
         # Combine for comparison
         X = np.vstack([X_train, X_test])
