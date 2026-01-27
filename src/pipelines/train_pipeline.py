@@ -49,12 +49,13 @@ def compare_models(X, y):
     """Compare different models using cross-validation."""
     print("\n🔬 Comparing models (5-fold CV)...")
     models = {
-        'Logistic Regression': LogisticRegression(max_iter=1000, random_state=42),
+        # 'Logistic Regression': LogisticRegression(max_iter=1000, random_state=42),
         'Random Forest': RandomForestClassifier(n_estimators=100, random_state=42, n_jobs=-1),
-        'Gradient Boosting': GradientBoostingClassifier(n_estimators=100, random_state=42),
+        # 'Gradient Boosting': GradientBoostingClassifier(n_estimators=100, random_state=42),
     }
 
     if HAS_XGBOOST:
+        print("Add XGBoost")
         models['XGBoost'] = XGBClassifier(
             n_estimators=100,
             max_depth=5,

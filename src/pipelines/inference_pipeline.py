@@ -203,7 +203,7 @@ def main():
     print(f"   Churn Probability: {result['churn_probability']*100:.1f}%")
     print(f"   Risk Category: {result['risk_category']}")
     print(f"   Recommendation: {result['recommendation']}")
-
+    print(f"   Prediction Explaination: {explain_prediction(example_customer)}")
 
 if __name__ == '__main__':
     main()

@@ -54,8 +54,8 @@ def load_model():
 @st.cache_data
 def load_data():
     """Load processed data for analysis."""
-    project_root = Path(__file__).parent.parent#.parent.parent
-
+    project_root = Path(__file__).parent.parent
+    # Test
     # For local use
     # project_root = Path(__file__).parent.parent
     
@@ -388,7 +388,8 @@ def render_batch_analysis():
     # df,txt = load_data()
     
     if df is None:
-        st.error("Data not found. Please run preprocessing first.\n Path located at: "+txt)
+        # st.error("Data not found. Please run preprocessing first.\n Path located at: "+txt)
+        st.error("Data not found. Please run preprocessing first.\n Path located at: ")
         return
     
     model, feature_names = load_model()
