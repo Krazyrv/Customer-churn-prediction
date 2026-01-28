@@ -9,7 +9,7 @@
 ## TL;DR
 
 - **What:** Machine learning model predicting customer churn with 80%+ accuracy
-- **Business Impact:** Identify 79% of churners in the top 20% risk scores, enabling targeted retention with 4x efficiency vs. random outreach
+- **Business Impact:** Identify 92% of churners in the top 40% risk scores, enabling targeted retention with 2.4x efficiency vs. random outreach
 - **Stack:** Python, Scikit-learn, XGBoost, SHAP, Streamlit
 
 ---
