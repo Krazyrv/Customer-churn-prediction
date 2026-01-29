@@ -87,6 +87,114 @@ Build a model that identifies high-risk customers so the retention team can:
 
 ## Key Results
 
+### 📊KEY FINDINGS SUMMARY
+
+##### 1. OVERALL CHURN
+
+   • Churn Rate: 26.5%
+   • Total Customers at Risk: 1,869
+
+##### 2. TOP CHURN DRIVERS (Actionable)
+
+   a) CONTRACT TYPE
+   • Month-to-month: ~43% churn
+   • Action: Offer discounts for annual contracts
+
+   b) TENURE
+   • New customers (0-12 mo): ~48% churn
+   • Action: Onboarding program, check-ins at 30/60/90 days
+
+   c) TECH SUPPORT
+   • Without tech support: 2x higher churn
+   • Action: Bundle free tech support for first 6 months
+
+   d) INTERNET SERVICE
+   • Fiber optic: ~42% churn
+   • Action: Investigate service quality, set expectations
+
+##### 3. LOW-IMPACT FEATURES
+
+   • Gender: No significant difference
+   • Phone service: Minimal impact
+
+##### 4. MODELING CONSIDERATIONS
+
+   • Class imbalance: Use stratified sampling, SMOTE
+   • Key features: Contract, Tenure, Services, Charges
+   • Evaluation: Use AUC-ROC, Precision-Recall (not just accuracy)
+
+#### Target Variable Analysis
+
+![Churn Distribution](docs/img/churn_distribution.png)
+
+💡 INSIGHT: Class imbalance present - 26.5% churn rate
+   Will need stratified sampling and appropriate evaluation metrics.
+
+#### Feature Analysis
+
+##### Demographics
+
+![demographics churns](docs\img\demographics_churn.png)
+
+💡 INSIGHTS:
+
+- Gender has minimal impact on churn
+- Senior citizens churn ~40% more
+- Customers with partners/dependents churn less (more stable)
+
+![contract churns](docs\img\contract_churn.png)
+
+💡 KEY INSIGHT: Month-to-month customers churn 15.1x more than 2-year contracts!
+
+- Month-to-month: 42.7% churn
+- Two year: 2.8% churn
+
+![tenure churn](docs/img/tenure_churn.png)
+
+💡 INSIGHT: New customers (0-12 months) have 47.7% churn rate
+   Long-term customers (48+ months) only 9.5% churn rate
+   → Early engagement is critical for retention!
+
+![internet_churn](docs/img/internet_churn.png)
+
+⚠️ INSIGHT: Fiber optic customers churn at 41.9%!
+   Possible reasons:
+
+- Higher expectations not met?
+- More tech-savvy, easier to switch?
+- Service quality issues?
+
+![support service churns](docs/img/support_services_churn.png)
+
+💡 INSIGHT: Customers WITHOUT support services churn 2x more!
+   → Bundle support services as retention strategy
+
+![streaming services churns](docs/img/streaming_services_churn.png)
+
+💡 INSIGHT: Streaming services result in slightly reduced churn.
+   Possible reasons:
+
+- High competition in streaming market
+- Customers may prioritize content over service loyalty
+  → Keep improving content and user experience
+  → Consider exclusive content partnerships
+
+![monthly charges churns](docs/img/charges_churn.png)
+
+💡 INSIGHT: Churned customers pay more on average
+
+- Churned: $74.44/month
+- Retained: $61.27/month
+  → Higher charges may lead to value perception issues
+
+#### Correlation Analysis
+
+![feature correlation](docs/img/correlations.png)
+
+💡 KEY CORRELATIONS:
+   🔴 INCREASES churn: Paperless Billing, Senior Citizen, Monthly Charges
+   🟢 DECREASES churn: Contract length, Tenure, Partner, Dependents
+
 ### Model Performance
 
 | Metric                   | Value | Business Meaning                         |
