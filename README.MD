@@ -356,10 +356,8 @@ For any individual customer, the model provides:
 ## Reproduce the Analysis
 
 ```bash
-# Full pipeline
-make reproduce
 
-# Or step by step:
+Step by step:
 python src/preprocessing.py     # Clean and engineer features
 python src/train.py             # Train model
 python src/evaluate.py          # Generate evaluation metrics
