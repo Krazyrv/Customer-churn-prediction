@@ -107,7 +107,7 @@ Actual No    1165   144
 
 ### Top Churn Drivers (SHAP Analysis)
 
-![Feature Importance](docs/img/shap_summary.png)
+![Feature Importance](src/docs/img/feature_importance.png)
 
 1. **Contract Type** — Month-to-month customers churn 3x more than annual contracts
 2. **Tenure** — Customers < 12 months are highest risk
