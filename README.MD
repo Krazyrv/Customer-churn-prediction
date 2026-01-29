@@ -2,7 +2,7 @@
 
 **Predict which customers will cancel their subscription and enable proactive retention campaigns that reduce churn by identifying at-risk customers before they leave.**
 
-![Model Performance](docs/img/model_performance.png)
+![Model Performance](src/docs/img/model_performance.png)
 
 ---
 
