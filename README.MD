@@ -134,7 +134,7 @@ Build a model that identifies high-risk customers so the retention team can:
 
 ##### Demographics
 
-![demographics churns](docs\img\demographics_churn.png)
+![demographics churns](docs/img/demographics_churn.png)
 
 💡 INSIGHTS:
 
@@ -142,7 +142,7 @@ Build a model that identifies high-risk customers so the retention team can:
 - Senior citizens churn ~40% more
 - Customers with partners/dependents churn less (more stable)
 
-![contract churns](docs\img\contract_churn.png)
+![contract churns](docs/img/contract_churn.png)
 
 💡 KEY INSIGHT: Month-to-month customers churn 15.1x more than 2-year contracts!
 
