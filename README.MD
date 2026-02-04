@@ -192,6 +192,7 @@ Build a model that identifies high-risk customers so the retention team can:
 ![feature correlation](docs/img/correlations.png)
 
 💡 KEY CORRELATIONS:
+
    🔴 INCREASES churn: Paperless Billing, Senior Citizen, Monthly Charges
    🟢 DECREASES churn: Contract length, Tenure, Partner, Dependents
 
