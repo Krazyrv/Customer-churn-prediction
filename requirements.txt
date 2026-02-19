@@ -23,6 +23,7 @@ matplotlib
 seaborn
 
 # Dashboard
+altair<5
 streamlit
 
 # Model serialization
