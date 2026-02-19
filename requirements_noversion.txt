@@ -1,0 +1,37 @@
+# Customer Churn Prediction - Requirements
+# Python 3.8+
+
+# Data processing
+pandas
+numpy
+
+# Machine Learning
+scikit-learn
+xgboost
+lightgbm
+imbalanced-learn
+
+# Hyperparameter tuning
+optuna
+
+# Model explainability
+shap
+
+# Visualization
+plotly
+matplotlib
+seaborn
+
+# Dashboard
+streamlit
+
+# Model serialization
+joblib
+
+# Jupyter
+jupyter
+notebook
+
+# Utilities
+python-dateutil
+tqdm
