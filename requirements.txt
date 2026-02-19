@@ -24,7 +24,7 @@ seaborn
 
 # Dashboard
 altair<5
-streamlit
+streamlit>=1.30.0
 
 # Model serialization
 joblib
